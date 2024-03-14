@@ -1,9 +1,13 @@
 import { StyleSheet, ImageBackground } from "react-native";
 import LandingScreen from "./screens/LandingScreen";
 import { LinearGradient } from "expo-linear-gradient";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignUpScreen from "./screens/SignUpScreen";
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
+
   return (
     <LinearGradient colors={["#413ccc", "#74f0d1"]} style={styles.rootScreen}>
       <ImageBackground
@@ -12,7 +16,12 @@ export default function App() {
         style={styles.rootScreen}
         imageStyle={styles.backgroundImg}
       >
-        <LandingScreen />
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Welcome" component={LandingScreen} />
+            <Stack.Screen name="Sign-up" component={SignUpScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </ImageBackground>
     </LinearGradient>
   );

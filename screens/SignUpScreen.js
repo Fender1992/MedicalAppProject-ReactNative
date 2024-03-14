@@ -1,7 +1,14 @@
-import { Text } from "react-native";
+import { StyleSheet } from "react-native";
 
 function SignUpScreen() {
-  return <Text>Sign Up</Text>;
+  return;
 }
 
 export default SignUpScreen;
+
+const styles = StyleSheet.create({
+  titleContainer: {
+    padding: 16,
+    fontSize: 30,
+  },
+});
