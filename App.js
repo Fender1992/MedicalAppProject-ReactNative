@@ -3,8 +3,9 @@ import LandingScreen from "./screens/LandingScreen";
 import { LinearGradient } from "expo-linear-gradient";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SignUpScreen from "./screens/SignUpScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
+import UserContextProvider from "./store/context/Users-context";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -17,13 +18,15 @@ export default function App() {
         style={styles.rootScreen}
         imageStyle={styles.backgroundImg}
       >
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Welcome" component={LandingScreen} />
-            <Stack.Screen name="Sign-up" component={SignUpScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <UserContextProvider>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="Welcome" component={LandingScreen} />
+              <Stack.Screen name="Sign-up" component={RegisterScreen} />
+              <Stack.Screen name="Login" component={LoginScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </UserContextProvider>
       </ImageBackground>
     </LinearGradient>
   );

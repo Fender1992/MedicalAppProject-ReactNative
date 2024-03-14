@@ -1,11 +1,12 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Input from "./Input";
+import PrimaryButton from "./PrimaryButton";
 
 function SignInForm() {
   return (
     <View>
-      <View>
+      <View style={styles.inputContainer}>
         <Input
           label="Email"
           textInputConfig={{
@@ -20,6 +21,7 @@ function SignInForm() {
             minLength: 6,
           }}
         />
+        <PrimaryButton>Submit</PrimaryButton>
       </View>
     </View>
   );
@@ -29,9 +31,12 @@ export default SignInForm;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    borderRadius: 10,
     backgroundColor: "#D4FFFF",
-    width: "100%",
-    height: 100,
+    elevation: 20,
+    shadowColor: "#5D59C4",
+    padding: 16,
+    marginHorizontal: 20,
+    borderRadius: 10,
+    marginVertical: 200,
   },
 });
