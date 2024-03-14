@@ -1,10 +1,12 @@
 import { View, StyleSheet, Text } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
-import SignUpScreen from "./SignUpScreen";
 
 function LandingScreen({ navigation }) {
   function pressHandler() {
     navigation.navigate("Sign-up");
+  }
+  function loginHandler() {
+    navigation.navigate("Login");
   }
 
   return (
@@ -14,7 +16,7 @@ function LandingScreen({ navigation }) {
       </View>
       <View style={styles.buttonsContainer}>
         <PrimaryButton onPress={pressHandler}>Get Started</PrimaryButton>
-        <PrimaryButton>Login</PrimaryButton>
+        <PrimaryButton onPress={loginHandler}>Login</PrimaryButton>
       </View>
     </View>
   );

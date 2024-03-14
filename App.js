@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignUpScreen from "./screens/SignUpScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -20,6 +21,7 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name="Welcome" component={LandingScreen} />
             <Stack.Screen name="Sign-up" component={SignUpScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </ImageBackground>
