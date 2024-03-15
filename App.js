@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
 import UserContextProvider from "./store/context/Users-context";
+import { UserHomeScreen } from "./screens/UserHomeScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ export default function App() {
           <NavigationContainer>
             <Stack.Navigator>
               <Stack.Screen name="Welcome" component={LandingScreen} />
+              <Stack.Screen name="Home" component={UserHomeScreen} />
               <Stack.Screen name="Sign-up" component={RegisterScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />
             </Stack.Navigator>

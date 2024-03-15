@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import Input from "./Input";
 import PrimaryButton from "./PrimaryButton";
-import { UserContext } from "../store/context/Users-context";
+import { useNavigation } from "@react-navigation/native";
 
-function SignUpForm() {
+function SignUpForm({ navigation }) {
+  const navigate = useNavigation();
   const [inputValues, setInputValues] = useState({
     firstName: "",
     lastName: "",
@@ -14,22 +15,38 @@ function SignUpForm() {
     phoneNumber: "",
   });
 
-  const { addUser } = useContext(UserContext); // Assuming addUser is a function defined in your context to add a user
-
-  const handleChange = (name, value) => {
-    setInputValues((currentValues) => ({
-      ...currentValues,
-      [name]: value,
+  function handleChange(field, value) {
+    setInputValues((prevState) => ({
+      ...prevState,
+      [field]: value,
     }));
-  };
+  }
 
-  const handleSubmit = () => {
-    console.log(inputValues); // Here, you can replace console.log with any action, like calling addUser from context
-    // addUser(inputValues);
-  };
+  // function handleSubmit() {
+  //   const userData = {
+  //     firstName: inputValues.firstName,
+  //     lastName: inputValues.lastName,
+  //     dob: new Date(inputValues.dob),
+  //     address: inputValues.dob,
+  //     zipCode: inputValues.dob,
+  //     phoneNumber: inputValues.phoneNumber,
+  //   };
+  //   console.log(userData);
+  // }
+
+  function handleSubmit() {
+    const { dob, ...rest } = inputValues;
+    // const formattedDob = dob ? new Date(dob) : null;
+    const userData = {
+      ...rest,
+      dob: new Date(inputValues.dob),
+    };
+    navigate.navigate("Home");
+    console.log(userData);
+  }
 
   return (
-    <View style={style.formContainer}>
+    <ScrollView style={style.formContainer}>
       <Text style={style.title}>Registration Form</Text>
       <Input
         label="First Name"
@@ -46,7 +63,7 @@ function SignUpForm() {
         value={inputValues.dob}
         onChangeText={(value) => handleChange("dob", value)}
         textInputConfig={{
-          placeholder: "mm/dd/yyyy",
+          placeholder: "YYYY-MM-DD",
           maxLength: 10,
           keyboardType: "numeric",
         }}
@@ -69,7 +86,7 @@ function SignUpForm() {
         textInputConfig={{ maxLength: 10, keyboardType: "phone-pad" }}
       />
       <PrimaryButton onPress={handleSubmit}>Submit</PrimaryButton>
-    </View>
+    </ScrollView>
   );
 }
 
