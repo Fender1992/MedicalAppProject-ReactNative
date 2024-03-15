@@ -5,8 +5,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RegisterScreen from "./screens/RegisterScreen";
 import LoginScreen from "./screens/LoginScreen";
-import UserContextProvider from "./store/context/Users-context";
 import { UserHomeScreen } from "./screens/UserHomeScreen";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Ionicons } from "@expo/vector-icons";
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -19,16 +22,57 @@ export default function App() {
         style={styles.rootScreen}
         imageStyle={styles.backgroundImg}
       >
-        <UserContextProvider>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="Welcome" component={LandingScreen} />
-              <Stack.Screen name="Home" component={UserHomeScreen} />
-              <Stack.Screen name="Sign-up" component={RegisterScreen} />
-              <Stack.Screen name="Login" component={LoginScreen} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </UserContextProvider>
+        <NavigationContainer>
+          <Drawer.Navigator
+            screenOptions={{
+              drawerActiveBackgroundColor: "#B7B5F5",
+              drawerStyle: { backgroundColor: "#D7D6EE" },
+              headerStyle: { backgroundColor: "#413ccc" },
+              headerTintColor: "white",
+            }}
+          >
+            <Drawer.Screen
+              name="Welcome"
+              component={LandingScreen}
+              options={{
+                drawerLabel: "Welcome Screen",
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons name="home" color={color} size={size} />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Home"
+              component={UserHomeScreen}
+              options={{
+                drawerLabel: "User",
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons name="person" color={color} size={size} />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Sign-up"
+              component={RegisterScreen}
+              options={{
+                drawerLabel: "Sign Up",
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons name="document" color={color} size={size} />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{
+                drawerLabel: "Login",
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons name="pencil-outline" color={color} size={size} />
+                ),
+              }}
+            />
+          </Drawer.Navigator>
+        </NavigationContainer>
       </ImageBackground>
     </LinearGradient>
   );

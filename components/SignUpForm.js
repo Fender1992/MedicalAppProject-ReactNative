@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, ScrollView } from "react-native";
 import Input from "./Input";
 import PrimaryButton from "./PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 function SignUpForm({ navigation }) {
   const navigate = useNavigation();
@@ -42,6 +43,10 @@ function SignUpForm({ navigation }) {
       dob: new Date(inputValues.dob),
     };
     navigate.navigate("Home");
+    axios.post(
+      "https://medical-app-react-native-default-rtdb.firebaseio.com/users.json",
+      userData
+    );
     console.log(userData);
   }
 
@@ -95,6 +100,7 @@ export default SignUpForm;
 const style = StyleSheet.create({
   formContainer: {
     padding: 15,
+    borderRadius: 10,
   },
   title: {
     fontSize: 30,
