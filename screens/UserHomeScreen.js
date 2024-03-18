@@ -41,7 +41,6 @@ export function UserHomeScreen() {
 
   function mapHandler() {
     navigate.navigate("Maps");
-    console.log("navigate to maps");
   }
 
   return (
