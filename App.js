@@ -8,6 +8,7 @@ import LoginScreen from "./screens/LoginScreen";
 import { UserHomeScreen } from "./screens/UserHomeScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
+import MapScreen from "./screens/MapScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -71,6 +72,7 @@ export default function App() {
                 ),
               }}
             />
+            <Drawer.Screen name="Maps" component={MapScreen} />
           </Drawer.Navigator>
         </NavigationContainer>
       </ImageBackground>

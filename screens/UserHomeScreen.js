@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   ScrollView,
   Text,
@@ -10,6 +11,7 @@ import {
 } from "react-native";
 
 export function UserHomeScreen() {
+  const navigate = useNavigation();
   const [userInfo, setUserInfo] = useState();
   useEffect(() => {
     async function getUser() {
@@ -38,6 +40,7 @@ export function UserHomeScreen() {
   }
 
   function mapHandler() {
+    navigate.navigate("Maps");
     console.log("navigate to maps");
   }
 
