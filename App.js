@@ -15,6 +15,43 @@ const Drawer = createDrawerNavigator();
 export default function App() {
   const Stack = createNativeStackNavigator();
 
+  function AuthStack() {
+    return (
+      <Drawer.Navigator>
+        <Drawer.Screen
+          name="Welcome"
+          component={LandingScreen}
+          options={{
+            drawerLabel: "Welcome Screen",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Sign-up"
+          component={RegisterScreen}
+          options={{
+            drawerLabel: "Sign Up",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="document" color={color} size={size} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            drawerLabel: "Login",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="pencil-outline" color={color} size={size} />
+            ),
+          }}
+        />
+      </Drawer.Navigator>
+    );
+  }
+
   return (
     <LinearGradient colors={["#413ccc", "#74f0d1"]} style={styles.rootScreen}>
       <ImageBackground
@@ -72,7 +109,15 @@ export default function App() {
                 ),
               }}
             />
-            <Drawer.Screen name="Maps" component={MapScreen} />
+            <Drawer.Screen
+              name="Maps"
+              component={MapScreen}
+              options={{
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons name="map" color={color} size={size} />
+                ),
+              }}
+            />
           </Drawer.Navigator>
         </NavigationContainer>
       </ImageBackground>

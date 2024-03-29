@@ -3,7 +3,10 @@ import { LinearGradient } from "expo-linear-gradient";
 
 function Input({ label, value, textInputConfig, onChangeText }) {
   return (
-    <LinearGradient colors={["#413ccc", "#74f0d1"]}>
+    <LinearGradient
+      colors={["#413ccc", "#74f0d1"]}
+      style={{ borderRadius: 25, elevation: 20 }}
+    >
       <View>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>{label}</Text>
@@ -31,7 +34,8 @@ export default Input;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginHorizontal: 4,
+    marginHorizontal: 14,
+    paddingBottom: 10,
   },
   label: {
     fontSize: 26,
@@ -40,5 +44,6 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "#DADEE1",
     height: 42,
+    borderRadius: 10,
   },
 });

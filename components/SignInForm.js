@@ -8,7 +8,7 @@ function SignInForm() {
     <View>
       <View style={styles.inputContainer}>
         <Input
-          label="Email"
+          label="Email Address"
           textInputConfig={{
             keyboardType: "email-address",
           }}
