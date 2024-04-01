@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   ScrollView,
@@ -9,35 +9,46 @@ import {
   ImageBackground,
   Pressable,
 } from "react-native";
+import { UserContext } from "../store/context/Users-context";
 
 export function UserHomeScreen() {
   const navigate = useNavigation();
-  const [userInfo, setUserInfo] = useState();
+  const { user } = useContext(UserContext);
+  const [userInfo, setUserInfo] = useState(null);
+
   useEffect(() => {
     async function getUser() {
-      const users = await getUserInfo();
-      if (users.length > 0) {
-        setUserInfo(users[0]);
+      if (user?.firebaseId) {
+        const users = await getUserInfo(user?.firebaseId);
+        setUserInfo(users);
       }
     }
-    getUser();
-  }, []);
-  async function getUserInfo() {
-    const userData = await axios.get(
-      "https://medical-app-react-native-default-rtdb.firebaseio.com/users.json"
-    );
 
-    const users = [];
-
-    for (const i in userData.data) {
-      users.push({
-        id: i,
-        firstName: userData.data[i].firstName,
-        lastName: userData.data[i].lastName,
-      });
+    if (user?.firebaseId) {
+      getUser();
     }
-    return users;
+  }, [user]);
+  async function getUserInfo() {
+    const response = await axios.get(
+      `https://medical-app-react-native-default-rtdb.firebaseio.com/users.json`,
+      {
+        id: firebaseId,
+        ...response.data,
+      }
+    );
+    return response.data ? { id: firebaseId, ...response.data } : null;
   }
+  //   const users = [];
+
+  //   for (const i in userData.data) {
+  //     users.push({
+  //       id: i,
+  //       firstName: userData.data[i].firstName,
+  //       lastName: userData.data[i].lastName,
+  //     });
+  //   }
+  //   return users;
+  // }
 
   function mapHandler() {
     navigate.navigate("Maps");

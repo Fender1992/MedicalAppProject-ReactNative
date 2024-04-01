@@ -1,19 +1,24 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, Text, ScrollView } from "react-native";
+import { StyleSheet, Text, ScrollView, Alert } from "react-native";
 import Input from "./Input";
 import PrimaryButton from "./PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
+import { UserContext } from "../store/context/Users-context";
+import { createUser } from "../util/auth";
 
 function SignUpForm({ navigation }) {
   const navigate = useNavigation();
+  const { user } = useContext(UserContext);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
   const [inputValues, setInputValues] = useState({
-    firstName: "",
-    lastName: "",
-    dob: "",
-    address: "",
-    zipCode: "",
-    phoneNumber: "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    dob: user?.dob || "",
+    address: user?.address || "",
+    password: user?.zipCode || "",
+    phoneNumber: user?.phoneNumber || "",
+    email: user?.email || "",
   });
 
   function handleChange(field, value) {
@@ -23,31 +28,61 @@ function SignUpForm({ navigation }) {
     }));
   }
 
-  // function handleSubmit() {
-  //   const userData = {
-  //     firstName: inputValues.firstName,
-  //     lastName: inputValues.lastName,
-  //     dob: new Date(inputValues.dob),
-  //     address: inputValues.dob,
-  //     zipCode: inputValues.dob,
-  //     phoneNumber: inputValues.phoneNumber,
-  //   };
-  //   console.log(userData);
-  // }
-
-  function handleSubmit() {
+  function handleSubmit({ email, password }) {
     const { dob, ...rest } = inputValues;
-    // const formattedDob = dob ? new Date(dob) : null;
     const userData = {
       ...rest,
       dob: new Date(inputValues.dob),
     };
-    navigate.navigate("Home");
-    axios.post(
-      "https://medical-app-react-native-default-rtdb.firebaseio.com/users.json",
-      userData
-    );
-    console.log(userData);
+    // const isValid = user.validate();
+    // if (isValid) {
+    const firstNameValid = userData.firstName.trim().length > 0;
+    const lastNameValid = userData.lastName.trim().length > 0;
+    const emailValid = userData.email.trim().length > 0;
+    const dobValid = userData.dob.toString() !== "Invalid Date";
+    const addressValid = userData.address.trim().length > 0;
+    const passwordValid = userData.password.length >= 6;
+    const phoneNumberValid = userData.phoneNumber.length > 0;
+
+    if (
+      !firstNameValid ||
+      !lastNameValid ||
+      !dobValid ||
+      !emailValid ||
+      !addressValid ||
+      !passwordValid ||
+      !phoneNumberValid
+    ) {
+      Alert.alert("Invalid input", "Please check user form!");
+      return false;
+    }
+
+    try {
+      setIsAuthenticating(true);
+      const userData = createUser(
+        inputValues.email,
+        inputValues.password,
+        inputValues.firstName,
+        inputValues.lastName,
+        inputValues.address,
+        inputValues.dob,
+        inputValues.phoneNumber
+      );
+      console.log("User created:", userData);
+      setIsAuthenticating(false);
+      navigate.navigate("Home");
+    } catch (error) {
+      setIsAuthenticating(false);
+      console.error("Error creating user:", error);
+      Alert.alert("Error", "Failed to create user account.");
+    }
+
+    // axios.post(
+    //   "https://medical-app-react-native-default-rtdb.firebaseio.com/users.json",
+    //   userData
+    // );
+    // }
+    // console.log(userData);
   }
 
   return (
@@ -70,6 +105,14 @@ function SignUpForm({ navigation }) {
         }}
       />
       <Input
+        label="Email"
+        value={inputValues.email}
+        onChangeText={(value) => handleChange("email", value)}
+        textInputConfig={{
+          placeholder: "youremail@gmail.com",
+        }}
+      />
+      <Input
         label="DOB"
         value={inputValues.dob}
         onChangeText={(value) => handleChange("dob", value)}
@@ -88,13 +131,12 @@ function SignUpForm({ navigation }) {
         }}
       />
       <Input
-        label="Zip Code"
-        value={inputValues.zipCode}
-        onChangeText={(value) => handleChange("zipCode", value)}
+        label="Password"
+        value={inputValues.password}
+        onChangeText={(value) => handleChange("password", value)}
+        secureTextEntry={true}
         textInputConfig={{
-          placeholder: "12345",
-          maxLength: 5,
-          keyboardType: "numeric",
+          minLength: 6,
         }}
       />
       <Input

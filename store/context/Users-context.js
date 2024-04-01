@@ -7,8 +7,9 @@ export const UserContext = createContext({
     lastName: "",
     dob: Date,
     address: "",
-    zipCode: Number,
-    phoneNumber: Number,
+    password: "",
+    phoneNumber: "",
+    email: "",
   },
   //   addUser: (user) => {},
 });

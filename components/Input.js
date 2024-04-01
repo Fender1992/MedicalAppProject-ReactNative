@@ -1,7 +1,13 @@
 import { TextInput, View, StyleSheet, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-function Input({ label, value, textInputConfig, onChangeText }) {
+function Input({
+  label,
+  value,
+  textInputConfig,
+  onChangeText,
+  secureTextEntry,
+}) {
   return (
     <LinearGradient
       colors={["#413ccc", "#74f0d1"]}
@@ -15,6 +21,7 @@ function Input({ label, value, textInputConfig, onChangeText }) {
             value={value}
             {...textInputConfig}
             onChangeText={onChangeText}
+            secureTextEntry={secureTextEntry}
           />
         </View>
       </View>
