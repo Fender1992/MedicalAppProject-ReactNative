@@ -5,10 +5,13 @@ import PrimaryButton from "./PrimaryButton";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from "../store/context/Users-context";
 import { createUser } from "../util/auth";
+import { AuthContext } from "../store/auth.context";
 
 function SignUpForm({ navigation }) {
   const navigate = useNavigation();
   const { user } = useContext(UserContext);
+  const authCtx = useContext(AuthContext);
+
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const [inputValues, setInputValues] = useState({
@@ -28,7 +31,7 @@ function SignUpForm({ navigation }) {
     }));
   }
 
-  function handleSubmit({ email, password }) {
+  async function handleSubmit({ email, password }) {
     const { dob, ...rest } = inputValues;
     const userData = {
       ...rest,
@@ -59,7 +62,7 @@ function SignUpForm({ navigation }) {
 
     try {
       setIsAuthenticating(true);
-      const userData = createUser(
+      const userData = await createUser(
         inputValues.email,
         inputValues.password,
         inputValues.firstName,
@@ -68,9 +71,10 @@ function SignUpForm({ navigation }) {
         inputValues.dob,
         inputValues.phoneNumber
       );
+      authCtx.authenticate(token);
       console.log("User created:", userData);
       setIsAuthenticating(false);
-      navigate.navigate("Home");
+      navigate("Home");
     } catch (error) {
       setIsAuthenticating(false);
       console.error("Error creating user:", error);
