@@ -1,4 +1,4 @@
-import { Children, createContext } from "react";
+import { createContext } from "react";
 import { useState } from "react";
 
 export const AuthContext = createContext({
@@ -13,6 +13,7 @@ function AuthContextProvider({ children }) {
 
   function authenticate(token) {
     setAuthToken(token);
+    isAuthenticated(true);
   }
 
   function logout() {

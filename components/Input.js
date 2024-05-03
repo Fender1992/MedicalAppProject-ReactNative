@@ -52,5 +52,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#DADEE1",
     height: 42,
     borderRadius: 10,
+    fontSize: 30,
   },
 });

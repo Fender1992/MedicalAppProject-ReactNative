@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { UserContext } from "../store/context/Users-context";
 import { createUser } from "../util/auth";
 import { AuthContext } from "../store/auth.context";
+import { useEffect } from "react";
 
 function SignUpForm({ navigation }) {
   const navigate = useNavigation();
@@ -23,6 +24,12 @@ function SignUpForm({ navigation }) {
     phoneNumber: user?.phoneNumber || "",
     email: user?.email || "",
   });
+
+  useEffect(() => {
+    if (authCtx.isAuthenticated) {
+      navigate("Home");
+    }
+  }, [authCtx.isAuthenticated, navigate]);
 
   function handleChange(field, value) {
     setInputValues((prevState) => ({
@@ -71,22 +78,21 @@ function SignUpForm({ navigation }) {
         inputValues.dob,
         inputValues.phoneNumber
       );
-      authCtx.authenticate(token);
-      console.log("User created:", userData);
-      setIsAuthenticating(false);
-      navigate("Home");
+      if (userData.token) {
+        authCtx.authenticate(userData.token);
+        console.log("User created:", userData);
+        setIsAuthenticating(false);
+        navigate.navigate("Home");
+      } else {
+        setIsAuthenticating(false);
+        console.error("Error creating user: Token not received");
+        Alert.alert("Error", "Failed to create user account.");
+      }
     } catch (error) {
       setIsAuthenticating(false);
       console.error("Error creating user:", error);
       Alert.alert("Error", "Failed to create user account.");
     }
-
-    // axios.post(
-    //   "https://medical-app-react-native-default-rtdb.firebaseio.com/users.json",
-    //   userData
-    // );
-    // }
-    // console.log(userData);
   }
 
   return (

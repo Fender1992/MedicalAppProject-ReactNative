@@ -10,34 +10,59 @@ import {
   Pressable,
 } from "react-native";
 import { UserContext } from "../store/context/Users-context";
+import { fetchUsers } from "../store/http";
 
 export function UserHomeScreen() {
   const navigate = useNavigation();
   const { user } = useContext(UserContext);
-  const [userInfo, setUserInfo] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
-    async function getUser() {
-      if (user?.firebaseId) {
-        const users = await getUserInfo(user?.firebaseId);
-        setUserInfo(users);
+    async function fetchData() {
+      try {
+        const users = await fetchUsers();
+        // console.log("Fetched Users:", users);
+        if (user && user.userId) {
+          const currentUser = users.find(
+            (fetchedUser) => fetchedUser.userId === user.userId
+          );
+          console.log("Current user:", currentUser);
+          setLoggedInUser(currentUser);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
     }
-
-    if (user?.firebaseId) {
-      getUser();
-    }
+    fetchData();
   }, [user]);
-  async function getUserInfo() {
-    const response = await axios.get(
-      `https://medical-app-react-native-default-rtdb.firebaseio.com/users.json`,
-      {
-        id: firebaseId,
-        ...response.data,
-      }
-    );
-    return response.data ? { id: firebaseId, ...response.data } : null;
-  }
+
+  // const users = userCtx.user.filter((user) => {});
+  //   // async function getUser() {
+  //   //   if (user?.firebaseId) {
+  //   //     const users = await getUserInfo(user?.firebaseId);
+  //   //     setUserInfo(users);
+  //   //   }
+  //   // }
+
+  //   // if (user?.firebaseId) {
+  //   //   getUser();
+  //   // }
+  //   async function getUserInfo() {
+  //     if (user?.firebaseId) {
+  //       const response = await axios.get(
+  //         `https://medical-app-react-native-default-rtdb.firebaseio.com/users.json`
+  //       );
+  //       if (response.data) {
+  //         setUserInfo({
+  //           id: user.firebaseId,
+  //           firstName: response.data.firstName,
+  //         });
+  //       }
+  //     }
+  //   }
+  //   getUserInfo();
+  // }, [user]);
+
   //   const users = [];
 
   //   for (const i in userData.data) {
@@ -65,7 +90,8 @@ export function UserHomeScreen() {
         <View>
           <Text style={style.welcomeMessage}>
             {" "}
-            Welcome, {userInfo ? `${userInfo.firstName}` : "Loading..."}{" "}
+            Welcome, {loggedInUser ? loggedInUser.firstName : "Loading..."}
+            {}
           </Text>
           <Text style={style.message}>What Would you like to do?</Text>
         </View>

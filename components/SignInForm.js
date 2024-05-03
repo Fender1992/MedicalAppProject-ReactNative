@@ -14,7 +14,7 @@ function SignInForm() {
 
   const [signInValue, setSignInValue] = useState({
     email: user?.email || "",
-    password: user?.zipCode || "",
+    password: user?.password || "",
   });
 
   useEffect(() => {
@@ -33,21 +33,31 @@ function SignInForm() {
   async function handleSubmit() {
     const { email, password } = signInValue;
 
-    const userData = {
-      email,
-      password,
-    };
+    const emailValid = email.trim().length > 0;
+    const passwordValid = password.trim().length > 0;
+    // const userData = {
+    //   email,
+    //   password,
+    // };
 
-    const emailValid = userData.email.trim().length > 0;
-    const passwordValid = userData.password.trim().length > 0;
     if (!emailValid || !passwordValid) {
       Alert.alert("Invalid credentials!");
       return false;
     }
 
     try {
-      const token = await Login(signInValue.email, signInValue.password);
-      authCtx.authenticate(token);
+      const response = await Login({ username: email, password });
+      // const { jwtToken: token } = await Login({ username: email, password });
+      // authCtx.authenticate(token);
+      if (response.jwtToken) {
+        authCtx.authenticate(response.jwtToken);
+        navigate("Home");
+      } else {
+        console.log("Received response:", response);
+        throw new Error("Token not received");
+      }
+
+      console.log("Logged in user data:", user);
     } catch (error) {
       console.log("Login Failed", error);
       Alert.alert(

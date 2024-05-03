@@ -46,80 +46,84 @@ function AuthenticatedStack() {
   const authCtx = useContext(AuthContext);
 
   return (
-    <Drawer.Navigator
-      screenOptions={{
-        drawerActiveBackgroundColor: "#B7B5F5",
-        drawerStyle: { backgroundColor: "#D7D6EE" },
-        headerStyle: { backgroundColor: "#413ccc" },
-        headerTintColor: "white",
-        headerRight: () => (
-          <Ionicons
-            name="exit-outline"
-            size={24}
-            color="white"
-            onPress={authCtx.logout}
-          />
-        ),
-      }}
-    >
-      <Drawer.Screen
-        name="Home"
-        component={UserHomeScreen}
-        options={{
-          drawerLabel: "User Home",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="person" color={color} size={size} />
+    <UserContextProvider>
+      <Drawer.Navigator
+        screenOptions={{
+          drawerActiveBackgroundColor: "#B7B5F5",
+          drawerStyle: { backgroundColor: "#D7D6EE" },
+          headerStyle: { backgroundColor: "#413ccc" },
+          headerTintColor: "white",
+          headerRight: () => (
+            <Ionicons
+              name="exit-outline"
+              size={24}
+              color="white"
+              onPress={authCtx.logout}
+            />
           ),
         }}
-      />
-      <Drawer.Screen
-        name="Maps"
-        component={MapScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="map" color={color} size={size} />
-          ),
-        }}
-      />
-    </Drawer.Navigator>
+      >
+        <Drawer.Screen
+          name="Home"
+          component={UserHomeScreen}
+          options={{
+            drawerLabel: "User Home",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="person" color={color} size={size} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Maps"
+          component={MapScreen}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="map" color={color} size={size} />
+            ),
+          }}
+        />
+      </Drawer.Navigator>
+    </UserContextProvider>
   );
 }
 
 function AuthStack() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Welcome"
-        component={LandingScreen}
-        options={{
-          drawerLabel: "Welcome Screen",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
-          ),
-        }}
-      />
+    <UserContextProvider>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Welcome"
+          component={LandingScreen}
+          options={{
+            drawerLabel: "Welcome Screen",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="home" color={color} size={size} />
+            ),
+          }}
+        />
 
-      <Stack.Screen
-        name="Sign-up"
-        component={RegisterScreen}
-        options={{
-          drawerLabel: "Sign Up",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="document" color={color} size={size} />
-          ),
-        }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          drawerLabel: "Login",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="pencil-outline" color={color} size={size} />
-          ),
-        }}
-      />
-    </Stack.Navigator>
+        <Stack.Screen
+          name="Sign-up"
+          component={RegisterScreen}
+          options={{
+            drawerLabel: "Sign Up",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="document" color={color} size={size} />
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            drawerLabel: "Login",
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="pencil-outline" color={color} size={size} />
+            ),
+          }}
+        />
+      </Stack.Navigator>
+    </UserContextProvider>
   );
 }
 

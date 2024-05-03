@@ -2,27 +2,41 @@ import { createContext } from "react";
 import { useState } from "react";
 
 export const UserContext = createContext({
+  // user: null,
+  // addUser: () => {},
+  // deleteUser: () => {},
   user: {
+    userId: "",
     firstName: "",
     lastName: "",
-    dob: Date,
+    dob: new Date(),
     address: "",
     password: "",
     phoneNumber: "",
     email: "",
   },
-  //   addUser: (user) => {},
+  addUser: (newUser) => {},
+  deleteUser: () => {},
 });
 
 export default function UserContextProvider({ children }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({
+    userId: "",
+    firstName: "",
+    lastName: "",
+    dob: new Date(),
+    address: "",
+    password: "",
+    phoneNumber: "",
+    email: "",
+  });
 
-  function addUser(user) {
-    setUser((user) => [...user, user]);
+  function addUser(newUser) {
+    setUser(newUser);
   }
 
   function deleteUser(user) {
-    setUser((user) => user.filter((user) => user.lastName !== user.lastName));
+    setUser({});
   }
 
   const value = {
