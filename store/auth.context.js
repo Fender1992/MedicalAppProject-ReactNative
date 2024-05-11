@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { useState } from "react";
 
 export const AuthContext = createContext({
-  token: "",
+  jwtToken: "",
   isAuthenticated: false,
   authenticate: () => {},
   logout: () => {},
@@ -11,7 +11,7 @@ export const AuthContext = createContext({
 function AuthContextProvider({ children }) {
   const [authToken, setAuthToken] = useState();
 
-  function authenticate(token) {
+  function authenticate(jwtToken) {
     setAuthToken(token);
     isAuthenticated(true);
   }
@@ -21,7 +21,7 @@ function AuthContextProvider({ children }) {
   }
 
   const value = {
-    token: authToken,
+    jwtToken: authToken,
     isAuthenticated: !!authToken,
     authenticate: authenticate,
     logout: logout,

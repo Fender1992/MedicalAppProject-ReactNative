@@ -16,12 +16,12 @@ function SignUpForm({ navigation }) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const [inputValues, setInputValues] = useState({
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
-    dob: user?.dob || "",
-    address: user?.address || "",
-    password: user?.zipCode || "",
-    phoneNumber: user?.phoneNumber || "",
+    // firstName: user?.firstName || "",
+    // lastName: user?.lastName || "",
+    // dob: user?.dob || "",
+    // address: user?.address || "",
+    password: user?.password || "",
+    // phoneNumber: user?.phoneNumber || "",
     email: user?.email || "",
   });
 
@@ -38,30 +38,30 @@ function SignUpForm({ navigation }) {
     }));
   }
 
-  async function handleSubmit({ email, password }) {
-    const { dob, ...rest } = inputValues;
-    const userData = {
-      ...rest,
-      dob: new Date(inputValues.dob),
-    };
+  async function handleSubmit() {
+    const { email, password } = inputValues;
+    // const userData = {
+    //   email,
+    //   password,
+    // };
     // const isValid = user.validate();
     // if (isValid) {
-    const firstNameValid = userData.firstName.trim().length > 0;
-    const lastNameValid = userData.lastName.trim().length > 0;
-    const emailValid = userData.email.trim().length > 0;
-    const dobValid = userData.dob.toString() !== "Invalid Date";
-    const addressValid = userData.address.trim().length > 0;
-    const passwordValid = userData.password.length >= 6;
-    const phoneNumberValid = userData.phoneNumber.length > 0;
+    // const firstNameValid = userData.firstName.trim().length > 0;
+    // const lastNameValid = userData.lastName.trim().length > 0;
+    const emailValid = inputValues.email.trim().length > 0;
+    // const dobValid = userData.dob.toString() !== "Invalid Date";
+    // const addressValid = userData.address.trim().length > 0;
+    const passwordValid = inputValues.password.length >= 6;
+    // const phoneNumberValid = userData.phoneNumber.length > 0;
 
     if (
-      !firstNameValid ||
-      !lastNameValid ||
-      !dobValid ||
+      // !firstNameValid ||
+      // !lastNameValid ||
+      // !dobValid ||
       !emailValid ||
-      !addressValid ||
-      !passwordValid ||
-      !phoneNumberValid
+      // !addressValid ||
+      !passwordValid
+      // !phoneNumberValid
     ) {
       Alert.alert("Invalid input", "Please check user form!");
       return false;
@@ -71,12 +71,12 @@ function SignUpForm({ navigation }) {
       setIsAuthenticating(true);
       const userData = await createUser(
         inputValues.email,
-        inputValues.password,
-        inputValues.firstName,
-        inputValues.lastName,
-        inputValues.address,
-        inputValues.dob,
-        inputValues.phoneNumber
+        inputValues.password
+        // inputValues.firstName,
+        // inputValues.lastName,
+        // inputValues.address,
+        // inputValues.dob,
+        // inputValues.phoneNumber
       );
       if (userData.token) {
         authCtx.authenticate(userData.token);
@@ -90,7 +90,7 @@ function SignUpForm({ navigation }) {
       }
     } catch (error) {
       setIsAuthenticating(false);
-      console.error("Error creating user:", error);
+      // console.error("Error creating user:", error);
       Alert.alert("Error", "Failed to create user account.");
     }
   }
@@ -98,7 +98,7 @@ function SignUpForm({ navigation }) {
   return (
     <ScrollView style={style.formContainer}>
       <Text style={style.title}>Registration Form</Text>
-      <Input
+      {/* <Input
         label="First Name"
         value={inputValues.firstName}
         onChangeText={(value) => handleChange("firstName", value)}
@@ -113,7 +113,7 @@ function SignUpForm({ navigation }) {
         textInputConfig={{
           placeholder: "Doe",
         }}
-      />
+      /> */}
       <Input
         label="Email"
         value={inputValues.email}
@@ -122,7 +122,7 @@ function SignUpForm({ navigation }) {
           placeholder: "youremail@gmail.com",
         }}
       />
-      <Input
+      {/* <Input
         label="DOB"
         value={inputValues.dob}
         onChangeText={(value) => handleChange("dob", value)}
@@ -139,7 +139,7 @@ function SignUpForm({ navigation }) {
         textInputConfig={{
           placeholder: "123 Street str",
         }}
-      />
+      /> */}
       <Input
         label="Password"
         value={inputValues.password}
@@ -149,7 +149,7 @@ function SignUpForm({ navigation }) {
           minLength: 6,
         }}
       />
-      <Input
+      {/* <Input
         label="Phone Number"
         value={inputValues.phoneNumber}
         onChangeText={(value) => handleChange("phoneNumber", value)}
@@ -158,7 +158,7 @@ function SignUpForm({ navigation }) {
           maxLength: 14,
           keyboardType: "phone-pad",
         }}
-      />
+      /> */}
       <PrimaryButton onPress={handleSubmit}>Submit</PrimaryButton>
     </ScrollView>
   );

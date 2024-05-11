@@ -5,12 +5,14 @@ const BACKEND_URL =
 
 export async function fetchUsers() {
   try {
+    //switch to fetch and pass body
     const response = await axios.get(BACKEND_URL + "/users.json");
 
     const users = [];
 
     for (const key in response.data) {
       const userData = {
+        //adjust user data to match .net api
         userId: key,
         firstName: response.data[key].firstName,
         lastName: response.data[key].lastName,
